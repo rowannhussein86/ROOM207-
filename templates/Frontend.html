@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System - ROOM207</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #660810;
+            --secondary: #3d0909;
+            --secondary2: #f8efe4;
+            --light: #fcf9f9;
+            --dark: #280b0b;
+            --accent: #990d06;
+            --nav-width: 280px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4efef;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-left: var(--nav-width);
+            padding: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        header {
+            background: linear-gradient(90deg, #8a0702 30%, #470707 80%);
+            background-size: 200% 200%;
+            background-repeat: no-repeat;
+            color: var(--light);
+            padding: 40px 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: gradient 4s infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 50% 100%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        header h1 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        header em {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1em;
+        }
+
+        .hamburger-btn {
+            display: none;
+        }
+
+        .sidebar-overlay {
+            display: none;
+        }
+
+        .nav-tabs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background: linear-gradient(135deg, #8a0702 30%, #470707 70%);
+            background-size: 200% 200%;
+            background-repeat: no-repeat;
+            padding: 30px 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            animation: gradient 4s infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 50% 100%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .nav-logo {
+            padding: 0 25px 30px;
+            border-bottom: 2px solid rgba(199, 109, 109, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .nav-logo h2 {
+            color: var(--light);
+            font-family: "Leckerli One", cursive;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1.2px;
+        }
+
+        .nav-logo p {
+            color: rgba(248, 244, 244, 0.91);
+            font-family: "Leckerli One", cursive;
+            font-size: 1.1em;
+        }
+
+        .tab-btn {
+            width: calc(100% - 20px);
+            margin: 0 10px 8px;
+            padding: 16px 20px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .tab-btn::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(199, 149, 109, 0.1);
+            color: var(--secondary2);
+            transform: translateX(5px);
+        }
+
+        .tab-btn:hover::before {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary) 20%, var(--dark) 80%);
+            color: var(--secondary2);
+            box-shadow: 0 4px 15px rgba(199, 149, 109, 0.4);
+        }
+
+        .tab-btn.active::before {
+            background: var(--secondary);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-card {
+            background: rgb(254, 249, 249);
+            padding: 35px;
+            margin: 30px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: var(--dark);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            color: var(--dark);
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(199, 149, 109, 0.1);
+            background: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 149, 109, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--dark);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .data-table thead {
+            background: linear-gradient(90deg, var(--dark) 10%, var(--secondary) 30%);
+            color: white;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .data-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 206, 164, 0.236);
+            transform: scale(1.01);
+        }
+
+        .action-btn {
+            padding: 9px 18px;
+            margin: 0 4px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #c71f1fa8 0%, #910000 100%);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(250, 63, 63, 0.4);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #eed3b3 0%, #d6c0b1 100%);
+            color: rgb(24, 6, 6);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px #f7c7a7eb;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #087a13;
+            border: 2px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #e4d6d7;
+            color: var(--accent);
+            border: 2px solid #e39199;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--primary);
+            font-size: 1.2em;
+        }
+
+
+        @media (max-width: 768px) {
+            .hamburger-btn {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                background-color: transparent;
+                cursor: pointer;
+                border: none;
+                padding: 10px;
+                z-index: 1001;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+            }
+
+            .hamburger-bar {
+                width: 30px;
+                height: 3px;
+                background-color: var(--primary);
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger-btn.active .hamburger-bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger-btn.active .hamburger-bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger-btn.active .hamburger-bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .sidebar-overlay {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--secondary2);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .sidebar-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-tabs {
+                left: -280px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-tabs.active {
+                left: 0;
+            }
+
+            .container {
+                margin-left: 0;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.6em;
+                margin-left: 50px;
+            }
+
+            .data-table {
+                font-size: 0.85em;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 10px 8px;
+            }
+
+            .section-card {
+                padding: 20px;
+                margin: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="hamburger-btn" onclick="toggleSidebar()">
+        <div class="hamburger-bar"></div>
+        <div class="hamburger-bar"></div>
+        <div class="hamburger-bar"></div>
+    </button>
+
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="container">
+        <header>
+            <h1>ROOM207 Hotel Management System</h1>
+            <em>Where Rooms Have Secrets… and Management Has Solutions</em>
+        </header>
+
+        <div class="nav-tabs">
+            <div class="nav-logo">
+                <h2>ROOM207</h2>
+                <p>Hotel Management</p>
+            </div>
+            <button class="tab-btn active" onclick="showTab('guests')">👥 Guests</button>
+            <button class="tab-btn" onclick="showTab('employees')">👔 Employees</button>
+            <button class="tab-btn" onclick="showTab('rooms')">🏨 Rooms</button>
+            <button class="tab-btn" onclick="showTab('roomTypes')">🛏️ Room Types</button>
+            <button class="tab-btn" onclick="showTab('bookings')">📅 Bookings</button>
+            <button class="tab-btn" onclick="showTab('services')">🔧 Services</button>
+            <button class="tab-btn" onclick="showTab('payments')">💳 Payments</button>
+        </div>
+
+        <!-- Guests Tab -->
+        <div id="guests" class="tab-content active">
+            <div class="section-card">
+                <h2 class="section-title">Guest Management</h2>
+                <div id="guestMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="guest_fname" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="guest_lname" placeholder="Enter last name">
+                    </div>
+                    <div class="form-group">
+                        <label>SSN (14 digits)</label>
+                        <input type="text" id="guest_ssn" placeholder="00000000000000" maxlength="14">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="guest_email" placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone (11 digits)</label>
+                        <input type="text" id="guest_phone" placeholder="01000000000" maxlength="11">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addGuestBtn" onclick="addGuest()">Add Guest</button>
+                    <button class="btn btn-primary" id="updateGuestBtn" style="display:none;"
+                        onclick="updateGuest()">Update Guest</button>
+                    <button class="btn btn-secondary" id="cancelUpdateBtn" style="display:none;"
+                        onclick="clearGuestForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadGuests()">Refresh List</button>
+                </div>
+
+                <div id="guestsTable"></div>
+            </div>
+        </div>
+
+        <!-- Employees Tab -->
+        <div id="employees" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Employee Management</h2>
+                <div id="employeeMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group"><label>Manager ID (optional)</label><input type="number" id="manager_id"
+                            placeholder="Enter your ID">
+                    </div>
+                    <div class="form-group"><label>First Name</label><input type="text" id="employee_fname"
+                            placeholder="Enter first name"></div>
+                    <div class="form-group"><label>Last Name</label><input type="text" id="employee_lname"
+                            placeholder="Enter last name"></div>
+                    <div class="form-group"><label>SSN (14 digits)</label><input type="text" id="employee_ssn"
+                            placeholder="00000000000000" maxlength="14"></div>
+                    <div class="form-group"><label>Role</label><input type="text" id="employee_role"
+                            placeholder="e.g., Reception, Housekeeping"></div>
+                    <div class="form-group"><label>Phone</label><input type="text" id="employee_phone"
+                            placeholder="01000000000"></div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addEmployeeBtn" onclick="addEmployee()">Add Employee</button>
+                    <button class="btn btn-primary" id="updateEmployeeBtn" style="display:none;"
+                        onclick="updateEmployee()">Update Employee</button>
+                    <button class="btn btn-secondary" id="cancelEmployeeBtn" style="display:none;"
+                        onclick="clearEmployeeForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadEmployees()">Refresh List</button>
+                </div>
+
+                <div id="employeesTable"></div>
+            </div>
+        </div>
+
+        <!-- Rooms Tab -->
+        <div id="rooms" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Room Management</h2>
+                <div id="roomMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Room Type ID</label>
+                        <input type="number" id="room_type_id" placeholder="e.g., 1, 2, 3..." min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Floor Number</label>
+                        <input type="number" id="room_floor" placeholder="e.g., 1, 2, 3..." min="1" max="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room Status</label>
+                        <select id="room_status" required>
+                            <option value="available">Available</option>
+                            <option value="not available">Not Available</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addRoomBtn" onclick="addRoom()">Add Room</button>
+                    <button class="btn btn-primary" id="updateRoomBtn" style="display:none;"
+                        onclick="updateRoom()">Update Room</button>
+                    <button class="btn btn-secondary" id="cancelRoomBtn" style="display:none;"
+                        onclick="clearRoomForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadRooms()">Refresh List</button>
+                </div>
+
+                <div id="roomsTable"></div>
+            </div>
+        </div>
+        <!-- RoomTypes tab -->
+        <div id="roomTypes" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Room Types Management</h2>
+                <div id="roomTypeMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group" style="display:none;">
+                        <label>Room Type ID</label>
+                        <input type="number" id="room_type_id" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type Name </label>
+                        <input type="text" id="room_type" placeholder="e.g., Single, Double, Suite" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price Per Night (EGP) </label>
+                        <input type="number" id="type_price" placeholder="e.g., 500" min="1" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Capacity (persons) </label>
+                        <input type="number" id="capacity" placeholder="e.g., 2" min="1" required>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addRoomTypeBtn" onclick="addRoomType()">
+                        Add Room Type
+                    </button>
+                    <button class="btn btn-primary" id="updateRoomTypeBtn" style="display:none;"
+                        onclick="updateRoomType()">
+                        Update Room Type
+                    </button>
+                    <button class="btn btn-secondary" id="cancelRoomTypeBtn" style="display:none;"
+                        onclick="clearRoomTypeForm()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadRoomTypes()">
+                        Refresh List
+                    </button>
+                </div>
+
+                <div id="roomTypesTable"></div>
+            </div>
+        </div>
+        <!-- Bookings Tab -->
+        <div id="bookings" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Bookings Management</h2>
+                <div id="bookingMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Guest ID</label>
+                        <input type="number" id="booking_guest_id" placeholder="Guest ID" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Room ID</label>
+                        <input type="number" id="booking_room_id" placeholder="Room ID" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Employee ID</label>
+                        <input type="number" id="booking_employee_id" placeholder="Employee ID" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Check-in Date</label>
+                        <input type="date" id="booking_checkin">
+                    </div>
+                    <div class="form-group">
+                        <label>Check-out Date</label>
+                        <input type="date" id="booking_checkout">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Price</label>
+                        <input type="number" id="booking_total_price" placeholder="Total Price" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Booking Status</label>
+                        <select id="booking_status">
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addBookingBtn" onclick="addBooking()">Add Booking</button>
+                    <button class="btn btn-primary" id="updateBookingBtn" style="display:none;"
+                        onclick="updateBooking()">Update Booking</button>
+                    <button class="btn btn-secondary" id="cancelBookingBtn" style="display:none;"
+                        onclick="clearBookingForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadBookings()">Refresh List</button>
+                </div>
+
+                <div id="bookingsTable"></div>
+            </div>
+        </div>
+        <!-- Services Tab -->
+        <div id="services" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Services Management</h2>
+                <div id="serviceMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Service ID</label>
+                        <input type="number" id="service_id" placeholder="Enter service ID" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service Name</label>
+                        <input type="text" id="service_name" placeholder="e.g., Room Service, Laundry">
+                    </div>
+                    <div class="form-group">
+                        <label>Service Price</label>
+                        <input type="number" id="service_price" placeholder="e.g., 50" min="0" step="0.01">
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addServiceBtn" onclick="addService()">Add Service</button>
+                    <button class="btn btn-primary" id="updateServiceBtn" style="display:none;"
+                        onclick="updateService()">Update Service</button>
+                    <button class="btn btn-secondary" id="cancelServiceBtn" style="display:none;"
+                        onclick="clearServiceForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadServices()">Refresh List</button>
+                </div>
+
+                <div id="servicesTable"></div>
+            </div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div id="payments" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Payments Management</h2>
+                <div id="paymentMessage"></div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Payment ID</label>
+                        <input type="number" id="payment_id" placeholder="Payment ID" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Booking ID</label>
+                        <input type="number" id="payment_booking_id" placeholder="Booking ID" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="payment_amount" placeholder="Amount" min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <input type="date" id="payment_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select id="payment_method">
+                            <option value="cash">Cash</option>
+                            <option value="credit_card">Credit Card</option>
+                            <option value="debit_card">Debit Card</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Status</label>
+                        <select id="payment_status">
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="refunded">Refunded</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="addPaymentBtn" onclick="addPayment()">Add Payment</button>
+                    <button class="btn btn-primary" id="updatePaymentBtn" style="display:none;"
+                        onclick="updatePayment()">Update Payment</button>
+                    <button class="btn btn-secondary" id="cancelPaymentBtn" style="display:none;"
+                        onclick="clearPaymentForm()">Cancel</button>
+                    <button class="btn btn-secondary" onclick="loadPayments()">Refresh List</button>
+                </div>
+
+                <div id="paymentsTable"></div>
+            </div>
+        </div>
+        <script>
+            const API_URL = 'http://localhost:5001';
+            let editingGuestId = null;
+            let editingEmployeeId = null;
+            let editingRoomId = null;
+            let editingRoomTypeId = null;
+            let editingBookingId = null;
+            let editingServiceId = null;
+            let editingPaymentId = null;
+            let editingPaymentBookingId = null;
+
+            function toggleSidebar() {
+                const sidebar = document.querySelector('.nav-tabs');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const hamburger = document.querySelector('.hamburger-btn');
+
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            }
+
+            function showTab(tabId) {
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+
+                const loaders = {
+                    guests: loadGuests,
+                    employees: loadEmployees,
+                    rooms: loadRooms,
+                    roomTypes: loadRoomTypes,
+                    bookings: loadBookings,
+                    services: loadServices,
+                    payments: loadPayments
+                };
+
+                if (loaders[tabId]) loaders[tabId]();
+            }
+
+            function showMessage(id, msg, type) {
+                const elem = document.getElementById(id);
+                elem.innerHTML = `<div class="message ${type}">${msg}</div>`;
+                setTimeout(() => elem.innerHTML = '', 5000);
+            }
+
+            // ====================== Guests Functions ======================
+            async function loadGuests() {
+                try {
+                    const res = await fetch(`${API_URL}/Guests`);
+                    const guests = await res.json();
+
+                    let html = `<table class="data-table">
+                    <thead><tr><th>Actions</th><th>Phone</th><th>Email</th><th>SSN</th><th>Last Name</th><th>First Name</th><th>ID</th></tr></thead><tbody>`;
+
+                    guests.forEach(g => {
+                        html += `<tr>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editGuest(${g.guest_id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteGuest(${g.guest_id})">Delete</button>
+                        </td>
+                        <td>${g.guest_phone}</td>
+                        <td>${g.guest_email}</td>
+                        <td>${g.guest_ssn}</td>
+                        <td>${g.guest_lname}</td>
+                        <td>${g.guest_fname}</td>
+                        <td>${g.guest_id}</td>
+                    </tr>`;
+                    });
+                    html += `</tbody></table>`;
+                    document.getElementById('guestsTable').innerHTML = html;
+                } catch (err) {
+                    showMessage('guestMessage', 'Error loading guests: ' + err.message, 'error');
+                }
+            }
+
+            async function addGuest() {
+                const guest = {
+                    guest_fname: document.getElementById('guest_fname').value.trim(),
+                    guest_lname: document.getElementById('guest_lname').value.trim(),
+                    guest_ssn: document.getElementById('guest_ssn').value.trim(),
+                    guest_email: document.getElementById('guest_email').value.trim(),
+                    guest_phone: document.getElementById('guest_phone').value.trim()
+                };
+
+                if (!guest.guest_fname || !guest.guest_lname || !guest.guest_ssn || !guest.guest_email || !guest.guest_phone) {
+                    showMessage('guestMessage', 'All fields are required', 'error');
+                    return;
+                }
+
+                if (guest.guest_ssn.length !== 14 || isNaN(guest.guest_ssn)) {
+                    showMessage('guestMessage', 'SSN must be 14 digits', 'error');
+                    return;
+                }
+
+                if (guest.guest_phone.length !== 11 || isNaN(guest.guest_phone)) {
+                    showMessage('guestMessage', 'Phone must be 11 digits', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Guests`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(guest)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('guestMessage', data.message, 'success');
+                        clearGuestForm();
+                        loadGuests();
+                    } else {
+                        showMessage('guestMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('guestMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editGuest(id) {
+                editingGuestId = id;
+
+                try {
+                    const res = await fetch(`${API_URL}/Guests`);
+                    const guests = await res.json();
+                    const guest = guests.find(g => g.guest_id === id);
+
+                    if (!guest) {
+                        showMessage('guestMessage', 'Guest not found', 'error');
+                        return;
+                    }
+
+                    document.getElementById('guest_fname').value = guest.guest_fname;
+                    document.getElementById('guest_lname').value = guest.guest_lname;
+                    document.getElementById('guest_ssn').value = guest.guest_ssn;
+                    document.getElementById('guest_email').value = guest.guest_email;
+                    document.getElementById('guest_phone').value = guest.guest_phone;
+
+                    document.getElementById('addGuestBtn').style.display = 'none';
+                    document.getElementById('updateGuestBtn').style.display = 'inline-block';
+                    document.getElementById('cancelUpdateBtn').style.display = 'inline-block';
+
+                    showMessage('guestMessage', 'Edit and click Update Guest', 'success');
+                } catch (err) {
+                    showMessage('guestMessage', 'Error: ' + err.message, 'error');
+                }
+            }
+
+            async function updateGuest() {
+                if (!editingGuestId) return;
+
+                const guest = {
+                    guest_fname: document.getElementById('guest_fname').value.trim(),
+                    guest_lname: document.getElementById('guest_lname').value.trim(),
+                    guest_ssn: document.getElementById('guest_ssn').value.trim(),
+                    guest_email: document.getElementById('guest_email').value.trim(),
+                    guest_phone: document.getElementById('guest_phone').value.trim()
+                };
+
+                if (!guest.guest_fname || !guest.guest_lname || !guest.guest_ssn || !guest.guest_email || !guest.guest_phone) {
+                    showMessage('guestMessage', 'All fields are required', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Guests/${editingGuestId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(guest)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('guestMessage', data.message, 'success');
+                        clearGuestForm();
+                        loadGuests();
+                    } else {
+                        showMessage('guestMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('guestMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            function clearGuestForm() {
+                document.getElementById('guest_fname').value = '';
+                document.getElementById('guest_lname').value = '';
+                document.getElementById('guest_ssn').value = '';
+                document.getElementById('guest_email').value = '';
+                document.getElementById('guest_phone').value = '';
+
+                document.getElementById('addGuestBtn').style.display = 'inline-block';
+                document.getElementById('updateGuestBtn').style.display = 'none';
+                document.getElementById('cancelUpdateBtn').style.display = 'none';
+                editingGuestId = null;
+            }
+
+            async function deleteGuest(id) {
+                if (!confirm(`Delete guest #${id}?`)) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Guests/${id}`, { method: 'DELETE' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('guestMessage', data.message, 'success');
+                        loadGuests();
+                    } else {
+                        showMessage('guestMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('guestMessage', 'Error: ' + err.message, 'error');
+                }
+            }
+
+            // ====================== Employees Functions ======================
+            async function loadEmployees() {
+                try {
+                    const res = await fetch(`${API_URL}/Employees`);
+                    const employees = await res.json();
+
+                    let html = `<table class="data-table">
+                    <thead><tr><th>Actions</th><th>Phone</th><th>Role</th><th>SSN</th><th>Last Name</th><th>First Name</th><th>Manager ID</th><th>ID</th></tr></thead><tbody>`;
+
+                    employees.forEach(e => {
+                        html += `<tr>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editEmployee(${e.employee_id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteEmployee(${e.employee_id})">Delete</button>
+                        </td>
+                        <td>${e.employee_phone}</td>
+                        <td>${e.employee_role}</td>
+                        <td>${e.employee_ssn}</td>
+                        <td>${e.employee_lname}</td>
+                        <td>${e.employee_fname}</td>
+                        <td>${e.manager_id || 'N/A'}</td>
+                        <td>${e.employee_id}</td>
+                    </tr>`;
+                    });
+                    html += `</tbody></table>`;
+                    document.getElementById('employeesTable').innerHTML = html;
+                } catch (err) {
+                    showMessage('employeeMessage', 'Error loading employees: ' + err.message, 'error');
+                }
+            }
+
+            async function addEmployee() {
+                const employee = {
+                    manager_id: parseInt(document.getElementById('manager_id').value) || null,
+                    employee_fname: document.getElementById('employee_fname').value.trim(),
+                    employee_lname: document.getElementById('employee_lname').value.trim(),
+                    employee_ssn: document.getElementById('employee_ssn').value.trim(),
+                    employee_role: document.getElementById('employee_role').value.trim(),
+                    employee_phone: document.getElementById('employee_phone').value.trim()
+                };
+
+                if (!employee.employee_fname || !employee.employee_lname || !employee.employee_ssn || !employee.employee_role || !employee.employee_phone) {
+                    showMessage('employeeMessage', 'Required fields missing', 'error');
+                    return;
+                }
+
+                if (employee.employee_ssn.length !== 14 || isNaN(employee.employee_ssn)) {
+                    showMessage('employeeMessage', 'SSN must be 14 digits', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Employees`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(employee)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('employeeMessage', data.message, 'success');
+                        clearEmployeeForm();
+                        loadEmployees();
+                    } else {
+                        showMessage('employeeMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('employeeMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editEmployee(id) {
+                editingEmployeeId = id;
+
+                try {
+                    const res = await fetch(`${API_URL}/Employees`);
+                    const employees = await res.json();
+                    const employee = employees.find(e => e.employee_id === id);
+
+                    if (!employee) {
+                        showMessage('employeeMessage', 'Employee not found', 'error');
+                        return;
+                    }
+
+                    document.getElementById('manager_id').value = employee.manager_id || '';
+                    document.getElementById('employee_fname').value = employee.employee_fname;
+                    document.getElementById('employee_lname').value = employee.employee_lname;
+                    document.getElementById('employee_ssn').value = employee.employee_ssn;
+                    document.getElementById('employee_role').value = employee.employee_role;
+                    document.getElementById('employee_phone').value = employee.employee_phone;
+
+                    document.getElementById('addEmployeeBtn').style.display = 'none';
+                    document.getElementById('updateEmployeeBtn').style.display = 'inline-block';
+                    document.getElementById('cancelEmployeeBtn').style.display = 'inline-block';
+
+                    showMessage('employeeMessage', 'Edit and click Update Employee', 'success');
+                } catch (err) {
+                    showMessage('employeeMessage', 'Error: ' + err.message, 'error');
+                }
+            }
+
+            async function updateEmployee() {
+                if (!editingEmployeeId) return;
+
+                const employee = {
+                    manager_id: parseInt(document.getElementById('manager_id').value) || null,
+                    employee_fname: document.getElementById('employee_fname').value.trim(),
+                    employee_lname: document.getElementById('employee_lname').value.trim(),
+                    employee_ssn: document.getElementById('employee_ssn').value.trim(),
+                    employee_role: document.getElementById('employee_role').value.trim(),
+                    employee_phone: document.getElementById('employee_phone').value.trim()
+                };
+
+                try {
+                    const res = await fetch(`${API_URL}/Employees/${editingEmployeeId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(employee)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('employeeMessage', data.message, 'success');
+                        clearEmployeeForm();
+                        loadEmployees();
+                    } else {
+                        showMessage('employeeMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('employeeMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            function clearEmployeeForm() {
+                document.getElementById('manager_id').value = '';
+                document.getElementById('employee_fname').value = '';
+                document.getElementById('employee_lname').value = '';
+                document.getElementById('employee_ssn').value = '';
+                document.getElementById('employee_role').value = '';
+                document.getElementById('employee_phone').value = '';
+
+                document.getElementById('addEmployeeBtn').style.display = 'inline-block';
+                document.getElementById('updateEmployeeBtn').style.display = 'none';
+                document.getElementById('cancelEmployeeBtn').style.display = 'none';
+                editingEmployeeId = null;
+            }
+
+            async function deleteEmployee(id) {
+                if (!confirm(`Delete employee #${id}?`)) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Employees/${id}`, { method: 'DELETE' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('employeeMessage', data.message, 'success');
+                        loadEmployees();
+                    } else {
+                        showMessage('employeeMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('employeeMessage', 'Error: ' + err.message, 'error');
+                }
+            }
+
+            // ====================== Rooms Functions ======================
+            async function loadRooms() {
+                try {
+                    const res = await fetch(`${API_URL}/Rooms`);
+                    const rooms = await res.json();
+
+                    let html = `<table class="data-table">
+                    <thead><tr><th>Actions</th><th>Status</th><th>Floor</th><th>Type ID</th><th>ID</th></tr></thead><tbody>`;
+
+                    rooms.forEach(r => {
+                        const statusColor = r.room_status === 'available' ? '#28a745' : '#dc3545';
+                        html += `<tr>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editRoom(${r.room_id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteRoom(${r.room_id})">Delete</button>
+                        </td>
+                        <td><span style="padding: 6px 12px; border-radius: 20px; background: ${statusColor}; color: white; font-weight: bold; font-size: 0.85em;">${r.room_status}</span></td>
+                        <td>${r.room_floor}</td>
+                        <td>${r.room_type_id}</td>
+                        <td>${r.room_id}</td>
+                    </tr>`;
+                    });
+                    html += `</tbody></table>`;
+                    document.getElementById('roomsTable').innerHTML = html;
+                } catch (err) {
+                    showMessage('roomMessage', 'Error loading rooms: ' + err.message, 'error');
+                }
+            }
+
+            async function addRoom() {
+                const room = {
+                    room_type_id: parseInt(document.getElementById('room_type_id').value),
+                    room_floor: parseInt(document.getElementById('room_floor').value),
+                    room_status: document.getElementById('room_status').value.trim().toLowerCase()
+                };
+
+                if (!room.room_type_id || !room.room_floor) {
+                    showMessage('roomMessage', 'Room Type ID and Floor are required', 'error');
+                    return;
+                }
+
+                if (!['available', 'not available'].includes(room.room_status)) {
+                    showMessage('roomMessage', 'Invalid status', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Rooms`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(room)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('roomMessage', data.message, 'success');
+                        clearRoomForm();
+                        loadRooms();
+                    } else {
+                        showMessage('roomMessage', data.error, 'error');
+                    }
+                } catch (err) {
+                    showMessage('roomMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editRoom(id) {
+                editingRoomId = id;
+
+                try {
+                    const res = await fetch(`${API_URL}/Rooms`);
+                    const rooms = await res.json();
+                    const room = rooms.find(r => r.room_id === id);
+
+                    if (!room) {
+                        showMessage('roomMessage', 'Room not found', 'error');
+                        return;
+                    }
+
+                    document.getElementById('room_type_id').value = room.room_type_id;
+                    document.getElementById('room_floor').value = room.room_floor;
+                    document.getElementById('room_status').value = room.room_status;
+
+                    document.getElementById('addRoomBtn').style.display = 'none';
+                    document.getElementById('updateRoomBtn').style.display = 'inline-block';
+                    document.getElementById('cancelRoomBtn').style.display = 'inline-block';
+
+                    showMessage('roomMessage', 'Edit and click Update Room', 'success');
+                } catch (err) {
+                    showMessage('roomMessage', 'Error: ' + err.message, 'error');
+                }
+            }
+
+            async function updateRoom() {
+                if (!editingRoomId) return;
+
+                const room = {
+                    room_type_id: parseInt(document.getElementById('room_type_id').value),
+                    room_floor: parseInt(document.getElementById('room_floor').value),
+                    room_status: document.getElementById('room_status').value.trim().toLowerCase()
+                };
+
+                if (!room.room_type_id || !room.room_floor) {
+                    showMessage('roomMessage', 'Room Type ID and Floor are required', 'error');
+                    return;
+                }
+
+                if (!['available', 'not available'].includes(room.room_status)) {
+                    showMessage('roomMessage', 'Invalid status', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Rooms/${editingRoomId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(room)
+                    });
+
+                    if (res.ok) {
+                        showMessage('roomMessage', 'Room updated successfully', 'success');
+                        clearRoomForm();
+                        loadRooms();
+                    } else {
+                        const error = await res.json();
+                        showMessage('roomMessage', error.error || 'Update failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('roomMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            function clearRoomForm() {
+                document.getElementById('room_type_id').value = '';
+                document.getElementById('room_floor').value = '';
+                document.getElementById('room_status').value = 'available';
+
+                document.getElementById('addRoomBtn').style.display = 'inline-block';
+                document.getElementById('updateRoomBtn').style.display = 'none';
+                document.getElementById('cancelRoomBtn').style.display = 'none';
+                editingRoomId = null;
+            }
+
+            async function deleteRoom(id) {
+                if (!confirm(`Are you sure you want to delete Room #${id}?`)) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Rooms/${id}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        showMessage('roomMessage', 'Room deleted successfully', 'success');
+                        loadRooms();
+                    }
+                } catch (err) {
+                    showMessage('roomMessage', 'Error deleting room: ' + err.message, 'error');
+                }
+            }
+            // ====================== RoomTypes Functions ======================
+            async function loadRoomTypes() {
+                try {
+                    const res = await fetch(`${API_URL}/Room_type`);
+                    if (!res.ok) throw new Error('Failed to fetch room types');
+
+                    const roomTypes = await res.json();
+
+                    let html = `<table class="data-table">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                      <th>ID</th>
+                        <th>Type Name</th>
+                        <th>Price/Night (EGP)</th>
+                    <th>Capacity</th>
+                    
+                </tr>
+            </thead>
+            <tbody>`;
+
+                    if (roomTypes.length === 0) {
+                        html += `<tr><td colspan="5" style="text-align:center;">No room types found</td></tr>`;
+                    } else {
+                        roomTypes.forEach(rt => {
+                            html += `<tr>
+                                        <td>
+                        <button class="action-btn edit-btn" onclick="editRoomType(${rt.room_type_id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteRoomType(${rt.room_type_id})">Delete</button>
+                    </td>
+
+                    <td>${rt.room_type_id}</td>
+                    <td><strong>${rt.room_type}</strong></td>
+                    <td>${parseFloat(rt.type_price).toFixed(2)} EGP</td>
+                    <td>${rt.capacity} person(s)</td>
+                </tr>`;
+                        });
+                    }
+
+                    html += `</tbody></table>`;
+                    document.getElementById('roomTypesTable').innerHTML = html;
+
+                } catch (err) {
+                    showMessage('roomTypeMessage', 'Error loading room types: ' + err.message, 'error');
+                }
+            }
+
+            async function addRoomType() {
+                const roomType = {
+                    room_type: document.getElementById("room_type").value.trim(),
+                    type_price: parseFloat(document.getElementById("type_price").value),
+                    capacity: parseInt(document.getElementById("capacity").value)
+                };
+
+                if (!roomType.room_type) {
+                    showMessage('roomTypeMessage', 'Please enter room type name', 'error');
+                    return;
+                }
+
+                if (isNaN(roomType.type_price) || roomType.type_price <= 0) {
+                    showMessage('roomTypeMessage', 'Please enter valid price (greater than 0)', 'error');
+                    return;
+                }
+
+                if (isNaN(roomType.capacity) || roomType.capacity <= 0) {
+                    showMessage('roomTypeMessage', 'Please enter valid capacity (at least 1)', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Room_type`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(roomType)
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('roomTypeMessage', data.message || 'Room type added successfully!', 'success');
+                        clearRoomTypeForm();
+                        loadRoomTypes();
+                    } else {
+                        showMessage('roomTypeMessage', data.error || 'Failed to add room type', 'error');
+                    }
+                } catch (err) {
+                    showMessage('roomTypeMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editRoomType(id) {
+                editingRoomTypeId = id;
+
+                try {
+                    const res = await fetch(`${API_URL}/Room_type`);
+                    if (!res.ok) throw new Error('Failed to fetch data');
+
+                    const roomTypes = await res.json();
+                    const roomType = roomTypes.find(rt => rt.room_type_id === id);
+
+                    if (!roomType) {
+                        showMessage('roomTypeMessage', 'Room type not found', 'error');
+                        return;
+                    }
+                    document.getElementById('room_type_id').value = roomType.room_type_id;
+                    document.getElementById('room_type_id').disabled = true;
+                    document.getElementById('room_type').value = roomType.room_type;
+                    document.getElementById('type_price').value = roomType.type_price;
+                    document.getElementById('capacity').value = roomType.capacity;
+
+                    document.getElementById('addRoomTypeBtn').style.display = 'none';
+                    document.getElementById('updateRoomTypeBtn').style.display = 'inline-block';
+                    document.getElementById('cancelRoomTypeBtn').style.display = 'inline-block';
+
+                    showMessage('roomTypeMessage', 'Edit the fields and click Update Room Type', 'success');
+
+                } catch (err) {
+                    showMessage('roomTypeMessage', 'Error fetching data: ' + err.message, 'error');
+                }
+            }
+
+            async function updateRoomType() {
+                if (!editingRoomTypeId) {
+                    showMessage('roomTypeMessage', 'No room type selected for update', 'error');
+                    return;
+                }
+
+                const roomType = {
+                    room_type: document.getElementById('room_type').value.trim(),
+                    type_price: parseFloat(document.getElementById('type_price').value),
+                    capacity: parseInt(document.getElementById('capacity').value)
+                };
+
+                if (!roomType.room_type) {
+                    showMessage('roomTypeMessage', 'Please enter room type name', 'error');
+                    return;
+                }
+
+                if (isNaN(roomType.type_price) || roomType.type_price <= 0) {
+                    showMessage('roomTypeMessage', 'Please enter valid price (greater than 0)', 'error');
+                    return;
+                }
+
+                if (isNaN(roomType.capacity) || roomType.capacity <= 0) {
+                    showMessage('roomTypeMessage', 'Please enter valid capacity (at least 1)', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Room_type/${editingRoomTypeId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(roomType)
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('roomTypeMessage', data.message || 'Room type updated successfully!', 'success');
+                        clearRoomTypeForm();
+                        loadRoomTypes();
+                    } else {
+                        showMessage('roomTypeMessage', data.error || 'Update failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('roomTypeMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            function clearRoomTypeForm() {
+                document.getElementById("room_type_id").value = "";
+                document.getElementById("room_type_id").disabled = false;
+                document.getElementById('room_type').value = '';
+                document.getElementById('type_price').value = '';
+                document.getElementById('capacity').value = '';
+
+                document.getElementById('addRoomTypeBtn').style.display = 'inline-block';
+                document.getElementById('updateRoomTypeBtn').style.display = 'none';
+                document.getElementById('cancelRoomTypeBtn').style.display = 'none';
+
+                editingRoomTypeId = null;
+
+                document.getElementById('roomTypeMessage').innerHTML = '';
+            }
+
+            async function deleteRoomType(id) {
+                if (!confirm('Are you sure you want to delete this room type?')) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Room_type/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('roomTypeMessage', data.message || 'Room type deleted successfully!', 'success');
+                        loadRoomTypes();
+                    } else {
+                        showMessage('roomTypeMessage', data.error || 'Delete failed', 'error');
+                    }
+
+                } catch (err) {
+                    showMessage('roomTypeMessage', 'Error deleting room type: ' + err.message, 'error');
+                }
+            }
+            // ====================== Booking Functions ======================
+
+            async function loadBookings() {
+                try {
+                    const res = await fetch(`${API_URL}/Booking`);
+                    const bookings = await res.json();
+
+                    if (!res.ok) {
+                        throw new Error(bookings.error || "Failed to fetch bookings");
+                    }
+
+                    let html = `<table class="data-table">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Check-out</th>
+                    <th>Check-in</th>
+                    <th>Room ID</th>
+                    <th>Guest ID</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+                    bookings.forEach(b => {
+                        const statusColors = {
+                            'confirmed': '#28a745',
+                            'pending': '#ffc107',
+                            'cancelled': '#dc3545',
+                            'completed': '#6c757d'
+                        };
+                        const statusColor = statusColors[b.room_state] || '#6c757d';
+
+                        html += `<tr>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editBooking(${b.booking_id})">Edit</button>
+                    <button class="action-btn delete-btn" onclick="deleteBooking(${b.booking_id})">Delete</button>
+                </td>
+                <td><span style="padding: 6px 12px; border-radius: 20px; background: ${statusColor}; color: white; font-weight: bold; font-size: 0.85em;">${b.room_state}</span></td>
+                <td><strong>${b.Price} EGP</strong></td>
+                <td>${b.check_OUT_date}</td>
+                <td>${b.check_IN_date}</td>
+                <td>${b.room_id}</td>
+                <td>${b.guest_id}</td>
+                <td>${b.booking_id}</td>
+            </tr>`;
+                    });
+
+                    html += `</tbody></table>`;
+                    document.getElementById('bookingsTable').innerHTML = html;
+
+                } catch (err) {
+                    showMessage('bookingMessage', 'Error loading bookings: ' + err.message, 'error');
+                }
+            }
+
+            function getBookingFromForm() {
+                return {
+                    guest_id: parseInt(document.getElementById('booking_guest_id').value),
+                    room_id: parseInt(document.getElementById('booking_room_id').value),
+                    employee_id: parseInt(document.getElementById('booking_employee_id').value),
+                    check_IN_date: document.getElementById('booking_checkin').value,
+                    check_OUT_date: document.getElementById('booking_checkout').value,
+                    Price: parseFloat(document.getElementById('booking_total_price').value),
+                    booking_date: new Date().toISOString().split('T')[0],
+                    room_state: document.getElementById('booking_status').value
+                };
+            }
+
+            function validateBooking(booking) {
+                if (!booking.guest_id || !booking.room_id || !booking.employee_id ||
+                    !booking.check_IN_date || !booking.check_OUT_date || !booking.Price) {
+                    return "All fields are required";
+                }
+                if (booking.Price < 0) return "Price cannot be negative";
+                if (booking.check_IN_date > booking.check_OUT_date) return "Check-in date must be before check-out date";
+                const allowedStates = ["confirmed", "pending", "cancelled", "completed"];
+                if (!allowedStates.includes(booking.room_state)) return "Invalid room state";
+                return null;
+            }
+
+            async function addBooking() {
+                const booking = getBookingFromForm();
+                const error = validateBooking(booking);
+                if (error) {
+                    showMessage('bookingMessage', error, 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Booking`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(booking)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('bookingMessage', data.message || 'Booking added successfully', 'success');
+                        clearBookingForm();
+                        loadBookings();
+                    } else {
+                        showMessage('bookingMessage', data.error || 'Failed to add booking', 'error');
+                    }
+                } catch (err) {
+                    showMessage('bookingMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editBooking(id) {
+                editingBookingId = id;
+                try {
+                    const res = await fetch(`${API_URL}/Booking`);
+                    const bookings = await res.json();
+                    const booking = bookings.find(b => b.booking_id === id);
+
+                    if (!booking) {
+                        showMessage('bookingMessage', 'Booking not found', 'error');
+                        return;
+                    }
+
+                    document.getElementById('booking_guest_id').value = booking.guest_id;
+                    document.getElementById('booking_room_id').value = booking.room_id;
+                    document.getElementById('booking_employee_id').value = booking.employee_id;
+                    document.getElementById('booking_checkin').value = booking.check_IN_date;
+                    document.getElementById('booking_checkout').value = booking.check_OUT_date;
+                    document.getElementById('booking_total_price').value = booking.Price;
+                    document.getElementById('booking_status').value = booking.room_state;
+
+                    document.getElementById('addBookingBtn').style.display = 'none';
+                    document.getElementById('updateBookingBtn').style.display = 'inline-block';
+                    document.getElementById('cancelBookingBtn').style.display = 'inline-block';
+
+                    showMessage('bookingMessage', 'Edit the fields and click Update Booking', 'success');
+                } catch (err) {
+                    showMessage('bookingMessage', 'Error fetching booking data: ' + err.message, 'error');
+                }
+            }
+
+            async function updateBooking() {
+                if (!editingBookingId) return;
+                const booking = getBookingFromForm();
+                const error = validateBooking(booking);
+                if (error) {
+                    showMessage('bookingMessage', error, 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Booking/${editingBookingId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(booking)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('bookingMessage', data.message || 'Booking updated successfully', 'success');
+                        clearBookingForm();
+                        loadBookings();
+                    } else {
+                        showMessage('bookingMessage', data.error || 'Update failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('bookingMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function deleteBooking(id) {
+                if (!confirm('Are you sure you want to delete this booking?')) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Booking/${id}`, { method: 'DELETE' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('bookingMessage', data.message || 'Booking deleted successfully', 'success');
+                        loadBookings();
+                    } else {
+                        showMessage('bookingMessage', data.error || 'Delete failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('bookingMessage', 'Error deleting booking: ' + err.message, 'error');
+                }
+            }
+
+            function clearBookingForm() {
+                document.getElementById('booking_guest_id').value = '';
+                document.getElementById('booking_room_id').value = '';
+                document.getElementById('booking_employee_id').value = '';
+                document.getElementById('booking_checkin').value = '';
+                document.getElementById('booking_checkout').value = '';
+                document.getElementById('booking_total_price').value = '';
+                document.getElementById('booking_status').value = 'confirmed';
+
+                document.getElementById('addBookingBtn').style.display = 'inline-block';
+                document.getElementById('updateBookingBtn').style.display = 'none';
+                document.getElementById('cancelBookingBtn').style.display = 'none';
+                editingBookingId = null;
+            }
+
+            // ====================== Services Functions ======================
+            async function loadServices() {
+                try {
+                    const res = await fetch(`${API_URL}/hotel_Service`);
+                    const services = await res.json();
+
+                    if (!res.ok) throw new Error(services.error || 'Failed to load services');
+
+                    let html = `<table class="data-table">
+            <thead><tr><th>Actions</th><th>Price</th><th>Service Name</th><th>ID</th></tr></thead><tbody>`;
+
+                    services.forEach(s => {
+                        html += `<tr>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editService(${s.service_id})">Edit</button>
+                    <button class="action-btn delete-btn" onclick="deleteService(${s.service_id})">Delete</button>
+                </td>
+                <td><strong>${s.price} EGP</strong></td>
+                <td>${s.name_service}</td>
+                <td>${s.service_id}</td>
+            </tr>`;
+                    });
+                    html += `</tbody></table>`;
+                    document.getElementById('servicesTable').innerHTML = html;
+                } catch (err) {
+                    showMessage('serviceMessage', 'Error loading services: ' + err.message, 'error');
+                }
+            }
+
+            async function addService() {
+                const service = {
+                    service_id: parseInt(document.getElementById('service_id').value),
+                    name_service: document.getElementById('service_name').value.trim(),
+                    price: parseFloat(document.getElementById('service_price').value)
+                };
+
+                if (!service.name_service || isNaN(service.price)) {
+                    showMessage('serviceMessage', 'Service name and price are required', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/hotel_Service`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(service)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('serviceMessage', data.message, 'success');
+                        clearServiceForm();
+                        loadServices();
+                    } else {
+                        showMessage('serviceMessage', data.error || 'Failed to add service', 'error');
+                    }
+                } catch (err) {
+                    showMessage('serviceMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editService(id) {
+                try {
+                    const res = await fetch(`${API_URL}/hotel_Service`);
+                    const services = await res.json();
+                    const service = services.find(s => s.service_id === id);
+
+                    if (!service) {
+                        showMessage('serviceMessage', 'Service not found', 'error');
+                        return;
+                    }
+
+                    editingServiceId = id;
+                    document.getElementById('service_name').value = service.name_service;
+                    document.getElementById('service_price').value = service.price;
+
+                    document.getElementById('addServiceBtn').style.display = 'none';
+                    document.getElementById('updateServiceBtn').style.display = 'inline-block';
+                    document.getElementById('cancelServiceBtn').style.display = 'inline-block';
+
+                    showMessage('serviceMessage', 'Edit the fields and click Update Service', 'success');
+                } catch (err) {
+                    showMessage('serviceMessage', 'Error fetching data: ' + err.message, 'error');
+                }
+            }
+
+            async function updateService() {
+                if (!editingServiceId) return;
+
+                const service = {
+                    name_service: document.getElementById('service_name').value.trim(),
+                    price: parseFloat(document.getElementById('service_price').value)
+                };
+
+                if (!service.name_service || isNaN(service.price)) {
+                    showMessage('serviceMessage', 'Service name and price are required', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/hotel_Service/${editingServiceId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(service)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('serviceMessage', data.message, 'success');
+                        clearServiceForm();
+                        loadServices();
+                    } else {
+                        showMessage('serviceMessage', data.error || 'Update failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('serviceMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            function clearServiceForm() {
+                document.getElementById('service_name').value = '';
+                document.getElementById('service_price').value = '';
+                document.getElementById('addServiceBtn').style.display = 'inline-block';
+                document.getElementById('updateServiceBtn').style.display = 'none';
+                document.getElementById('cancelServiceBtn').style.display = 'none';
+                editingServiceId = null;
+            }
+
+            async function deleteService(id) {
+                if (!confirm('Are you sure you want to delete this service?')) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/hotel_Service/${id}`, { method: 'DELETE' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('serviceMessage', data.message, 'success');
+                        loadServices();
+                    } else {
+                        showMessage('serviceMessage', data.error || 'Delete failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('serviceMessage', 'Error deleting service: ' + err.message, 'error');
+                }
+            }
+
+            // ====================== Payments Functions ======================
+            async function loadPayments() {
+                try {
+                    const res = await fetch(`${API_URL}/Payment?_=${new Date().getTime()}`);
+                    const payments = await res.json();
+
+                    let html = `<table class="data-table">
+            <thead>
+                <tr>
+                    <th>Actions</th>
+                    <th>Status</th>
+                    <th>Method</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Booking ID</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>`;
+
+                    payments.forEach(p => {
+                        const statusColors = { 'paid': '#28a745', 'pending': '#ffc107', 'refunded': '#dc3545' };
+                        const statusColor = statusColors[p.payment_type] || '#6c757d';
+
+                        html += `<tr>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editPayment(${p.payment_id}, ${p.booking_id})">Edit</button>
+                    <button class="action-btn delete-btn" onclick="deletePayment(${p.payment_id}, ${p.booking_id})">Delete</button>
+                </td>
+                <td><span style="padding:6px 12px;border-radius:20px;background:${statusColor};color:white;font-weight:bold;font-size:0.85em;">${p.payment_type}</span></td>
+                <td>${p.payment_type}</td>
+                <td>${p.Payment_date}</td>
+                <td><strong>${p.amount} EGP</strong></td>
+                <td>${p.booking_id}</td>
+                <td>${p.payment_id}</td>
+            </tr>`;
+                    });
+
+                    html += `</tbody></table>`;
+                    document.getElementById('paymentsTable').innerHTML = html;
+                } catch (err) {
+                    showMessage('paymentMessage', 'Error loading payments: ' + err.message, 'error');
+                }
+
+            }
+            async function addPayment() {
+                const payment = {
+                    payment_id: parseInt(document.getElementById('payment_id').value),
+                    booking_id: parseInt(document.getElementById('payment_booking_id').value),
+                    payment_type: document.getElementById('payment_method').value,
+                    amount: parseFloat(document.getElementById('payment_amount').value),
+                    Payment_date: document.getElementById('payment_date').value
+                };
+
+                if (!payment.payment_id || !payment.booking_id || !payment.payment_type || !payment.amount || !payment.Payment_date) {
+                    showMessage('paymentMessage', 'All fields are required and must be valid', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Payment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payment)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('paymentMessage', data.message, 'success');
+                        clearPaymentForm();
+                        loadPayments();
+                    } else {
+                        showMessage('paymentMessage', data.error || 'Failed to add payment', 'error');
+                    }
+                } catch (err) {
+                    showMessage('paymentMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function editPayment(payment_id, booking_id) {
+                editingPaymentId = payment_id;
+                editingPaymentBookingId = booking_id;
+
+                try {
+                    const res = await fetch(`${API_URL}/Payment`);
+                    const payments = await res.json();
+                    const payment = payments.find(p => p.payment_id === payment_id && p.booking_id === booking_id);
+
+                    if (!payment) {
+                        showMessage('paymentMessage', 'Payment not found', 'error');
+                        return;
+                    }
+
+                    document.getElementById('payment_id').value = payment.payment_id;
+                    document.getElementById('payment_booking_id').value = payment.booking_id;
+                    document.getElementById('payment_amount').value = payment.amount;
+                    document.getElementById('payment_date').value = payment.Payment_date;
+                    document.getElementById('payment_method').value = payment.payment_type;
+
+                    document.getElementById('addPaymentBtn').style.display = 'none';
+                    document.getElementById('updatePaymentBtn').style.display = 'inline-block';
+                    document.getElementById('cancelPaymentBtn').style.display = 'inline-block';
+
+                    showMessage('paymentMessage', 'Edit the fields and click Update Payment', 'success');
+                } catch (err) {
+                    showMessage('paymentMessage', 'Error fetching data: ' + err.message, 'error');
+                }
+            }
+
+            async function updatePayment() {
+                if (!editingPaymentId || !editingPaymentBookingId) return;
+
+                const payment = {
+                    payment_type: document.getElementById('payment_method').value,
+                    amount: parseFloat(document.getElementById('payment_amount').value),
+                    Payment_date: document.getElementById('payment_date').value
+                };
+
+                if (!payment.payment_type || !payment.amount || !payment.Payment_date) {
+                    showMessage('paymentMessage', 'All fields are required', 'error');
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_URL}/Payment/${editingPaymentId}/${editingPaymentBookingId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payment)
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('paymentMessage', data.message, 'success');
+                        clearPaymentForm();
+                        loadPayments();
+                    } else {
+                        showMessage('paymentMessage', data.error || 'Update failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('paymentMessage', 'Connection error: ' + err.message, 'error');
+                }
+            }
+
+            async function deletePayment(payment_id, booking_id) {
+                if (!confirm('Are you sure you want to delete this payment?')) return;
+
+                try {
+                    const res = await fetch(`${API_URL}/Payment/${payment_id}/${booking_id}`, { method: 'DELETE' });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        showMessage('paymentMessage', data.message, 'success');
+                        loadPayments();
+                    } else {
+                        showMessage('paymentMessage', data.error || 'Delete failed', 'error');
+                    }
+                } catch (err) {
+                    showMessage('paymentMessage', 'Error deleting payment: ' + err.message, 'error');
+                }
+            }
+
+            function clearPaymentForm() {
+                document.getElementById('payment_id').value = '';
+                document.getElementById('payment_booking_id').value = '';
+                document.getElementById('payment_amount').value = '';
+                document.getElementById('payment_date').value = '';
+                document.getElementById('payment_method').value = 'cash';
+
+                document.getElementById('addPaymentBtn').style.display = 'inline-block';
+                document.getElementById('updatePaymentBtn').style.display = 'none';
+                document.getElementById('cancelPaymentBtn').style.display = 'none';
+                editingPaymentId = null;
+                editingPaymentBookingId = null;
+            }
+
+
+            // Load initial tab
+            showTab('guests');
+        </script>
+</body>
+
+</html>
