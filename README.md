@@ -48,7 +48,11 @@ ROOM207/
 └── .gitignore               # Files excluded from version control
 ```
 ## ER Diagram
+The ER Diagram above illustrates the main entities of the ROOM207 system and their relationships. Each table, primary key, and foreign key is clearly represented.
 ![ER Diagram](ER_Diagram/ER_Diagram.drawio.png)
 
 ## Mapping
+The Relational Mapping diagram shows how the ER Diagram entities are converted into SQL tables, including table names, columns, and relationships between them.
 ![Mapping](Mapping/Mapping_ROOM207.drawio.png/)
+
+
