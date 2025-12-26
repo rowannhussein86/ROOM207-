@@ -25,9 +25,8 @@ It includes ER diagrams, mapping, SQL scripts, and a Jupyter notebook for databa
 - **Database:** SQL Server  
 - **Query Language:** SQL  
 - **Backend / Connection:** Python (Jupyter Notebook)  
-- **Frontend:** HTML  
+- **Frontend:** HTML , css , js  
 - **Environment Management:** `.env` file  
-- **Tools:** Git, GitHub  
 
 
 ## 📂 Project Structure
