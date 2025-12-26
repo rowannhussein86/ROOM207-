@@ -2,8 +2,10 @@
 
 ![Project Status](https://img.shields.io/badge/Status-Development-green)
 ![Backend](https://img.shields.io/badge/Backend-Flask-lightgrey)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Database](https://img.shields.io/badge/DB-SQL%20Server-red)
-![Security](https://img.shields.io/badge/Security-Protected-blue)
+![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS-blue)
+
 
 **ROOM207** is a database-driven project that demonstrates database design,
 SQL queries execution, and frontend interaction.
@@ -20,7 +22,7 @@ It includes ER diagrams, mapping, SQL scripts, and a Jupyter notebook for databa
 
 
 ## 🛠 Tech Stack
-- **Database:** MySQL  
+- **Database:** SQL Server  
 - **Query Language:** SQL  
 - **Backend / Connection:** Python (Jupyter Notebook)  
 - **Frontend:** HTML  
@@ -46,7 +48,7 @@ ROOM207/
 └── .gitignore               # Files excluded from version control
 ```
 ## ER Diagram
-![ER Diagram](https://img.shields.io/badge/Status-Development-green)
+![ER Diagram](ER_Diagram/ER_Diagram.drawio.png)
 
 ## Mapping
-![Mapping](https://img.shields.io/badge/Status-Development-green)
+![Mapping](Mapping/Mapping_ROOM207.drawio.png/)
