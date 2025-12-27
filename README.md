@@ -54,4 +54,21 @@ The ER Diagram above illustrates the main entities of the ROOM207 system and the
 The Relational Mapping diagram shows how the ER Diagram entities are converted into SQL tables, including table names, columns, and relationships between them.
 ![Mapping](Mapping/Mapping_ROOM207.drawio.png/)
 
+## ⚙️ How to Run
 
+### 1-Clone the repository
+```
+git clone https://github.com/rowannhussein86/ROOM207
+```
+
+### 2-Set up the environment variables
+Create a .env file and add your database connection details (such as server name, database name, username, and password).
+
+### 3-Connect to the database
+Open connection.ipynb and run the cells to establish a connection with the SQL Server database.
+
+### 4-Run SQL queries
+Execute the provided SQL queries either directly in SQL Server or through the Jupyter Notebook to interact with the database.
+
+## 🖼️ Frontend Preview
+![Frontend UI](images/frontend.png)
