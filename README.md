@@ -12,13 +12,13 @@ SQL queries execution, and frontend interaction.
 It includes ER diagrams, mapping, SQL scripts, and a Jupyter notebook for database connection and testing.
 
 ## 🚀 Key Features
-- 📊 Well-structured ER Diagram representing the database entities and relationships
-- 🔄 ER to Relational Mapping following database design rules
-- 🧾 Comprehensive Data Dictionary for tables and attributes
-- 🛠️ SQL Queries for data retrieval and manipulation
-- 🔐 Secure database connection using environment variables
-- 🖥️ Simple frontend interface for interacting with the database
-- 📁 Organized project structure for easy navigation and maintenance
+-  Well-structured ER Diagram representing the database entities and relationships
+-  ER to Relational Mapping following database design rules
+-  Comprehensive Data Dictionary for tables and attributes
+-  SQL Queries for data retrieval and manipulation
+-  Secure database connection using environment variables
+-  Simple frontend interface for interacting with the database
+-  Organized project structure for easy navigation and maintenance
 
 
 ## 🛠 Tech Stack
