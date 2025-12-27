@@ -2,7 +2,7 @@
 
 ![Project Status](https://img.shields.io/badge/Status-Development-green)
 ![Backend](https://img.shields.io/badge/Backend-Flask-lightgrey)
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Database](https://img.shields.io/badge/DB-SQL%20Server-red)
 ![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS-blue)
 
