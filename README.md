@@ -1,10 +1,12 @@
 # 🏨 ROOM207 - Hotel Management System
 
-![Project Status](https://img.shields.io/badge/Status-Development-green)
-![Backend](https://img.shields.io/badge/Backend-Flask-lightgrey)
-![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Database](https://img.shields.io/badge/DB-SQL%20Server-red)
-![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS-blue)
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Development-green" alt="Project Status">
+  <img src="https://img.shields.io/badge/Backend-Flask-lightgrey" alt="Backend">
+  <img src="https://img.shields.io/badge/Python-3.13-blue" alt="Python">
+  <img src="https://img.shields.io/badge/DB-SQL%20Server-red" alt="Database">
+  <img src="https://img.shields.io/badge/Frontend-HTML%2FCSS-blue" alt="Frontend">
+</p>
 
 
 **ROOM207** is a database-driven project that demonstrates database design,
