@@ -71,4 +71,4 @@ Open connection.ipynb and run the cells to establish a connection with the SQL S
 Execute the provided SQL queries either directly in SQL Server or through the Jupyter Notebook to interact with the database.
 
 ## 🖼️ Frontend Preview
-![Frontend UI](images/frontend.png)
+![Frontend UI](images/Frontend.png)
